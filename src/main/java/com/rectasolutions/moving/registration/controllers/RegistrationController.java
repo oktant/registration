@@ -5,9 +5,7 @@ import com.rectasolutions.moving.registration.entities.Country;
 import com.rectasolutions.moving.registration.entities.LoginUser;
 import com.rectasolutions.moving.registration.entities.Response;
 import com.rectasolutions.moving.registration.entities.User;
-import com.rectasolutions.moving.registration.messages.Message;
-import com.rectasolutions.moving.registration.repositories.CountryRepository;
-import com.rectasolutions.moving.registration.services.CityServices;
+
 import com.rectasolutions.moving.registration.services.CountryService;
 import com.rectasolutions.moving.registration.services.RegistrationService;
 import org.springframework.beans.factory.annotation.Autowired;

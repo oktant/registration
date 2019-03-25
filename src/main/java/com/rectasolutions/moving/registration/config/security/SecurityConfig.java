@@ -71,7 +71,7 @@ public class SecurityConfig extends KeycloakWebSecurityConfigurerAdapter
                 .antMatchers("/api/v1/registration/hello*").hasRole("CUST_IND")
                 .anyRequest().permitAll().and().csrf()
                 .disable();
-                //.csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse());
+                //.csrfTokenRepository(CookieCsrfTokenRepositoryll.withHttpOnlyFalse());
     }
     @Bean
     public FilterRegistrationBean keycloakAuthenticationProcessingFilterRegistrationBean(
