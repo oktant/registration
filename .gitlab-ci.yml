@@ -22,6 +22,6 @@ maven-build:
 docker-build:
   stage: package
   script:
-  - docker build -t 185.53.130.232:9988/oktay/Registration .
+  - docker build -t 185.53.130.232:9988/rectamoving/registration .
   - docker login -u gitlab-ci-token -p $CI_BUILD_TOKEN 185.53.130.232:9988
-  - docker push 185.53.130.232:9988/oktay/Registration
+  - docker push 185.53.130.232:9988/rectamoving/registration
