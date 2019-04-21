@@ -14,7 +14,9 @@ stages:
 maven-build:
   image: maven:3-jdk-8
   stage: build
-  script: "mvn package -B"
+  script: 
+  - mvn --batch-mode verify sonar:sonar -Dsonar.host.url=$SONAR_URL -Dsonar.login=$SONAR_LOGIN -Dsonar.password=$SONAR_PASSWORD
+  - mvn package
   artifacts:
     paths:
       - target/*.jar
@@ -22,9 +24,9 @@ maven-build:
 docker-build:
   stage: package
   script:
-  - docker build -t git.rectasolutions.com:9988/rectamoving/registration .
-  - docker login -u gitlab-ci-token -p $CI_BUILD_TOKEN git.rectasolutions.com:9988
-  - docker push git.rectasolutions.com:9988/rectamoving/registration
+  - docker build -t $REGISTRY_URL/rectamoving/registration .
+  - docker login -u gitlab-ci-token -p $CI_BUILD_TOKEN $REGISTRY_URL
+  - docker push $REGISTRY_URL/rectamoving/registration
 
 
 
