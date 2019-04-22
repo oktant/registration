@@ -1,10 +1,9 @@
 package com.rectasolutions.moving.registration.entities;
 
 
-
 import org.hibernate.validator.constraints.Email;
-import org.hibernate.validator.constraints.NotBlank;
 
+import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 import java.util.ArrayList;
 import java.util.List;
@@ -17,17 +16,17 @@ import java.util.stream.Collectors;
 public class    User {
 
     @Email
-    @NotBlank
+    @NotEmpty
     private String email;
-    @NotBlank
+    @NotEmpty
     private String password;
 
     @NotNull
-    @NotBlank
+    @NotEmpty
     private String firstName;
 
     @NotNull
-    @NotBlank
+    @NotEmpty
     private String lastName;
 
     private String companyName;
@@ -36,11 +35,11 @@ public class    User {
     private int country;
 
     @NotNull
-    @NotBlank
+    @NotEmpty
     private String city;
 
     @NotNull
-    @NotBlank
+    @NotEmpty
     private String phoneNumber;
 
 

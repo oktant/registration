@@ -71,7 +71,6 @@ public class SecurityConfig extends KeycloakWebSecurityConfigurerAdapter
                 .antMatchers("/api/v1/registration/hello*").hasRole("CUST_IND")
                 .anyRequest().permitAll().and().csrf()
                 .disable();
-                //.csrfTokenRepository(CookieCsrfTokenRepositoryll.withHttpOnlyFalse());
     }
     @Bean
     public FilterRegistrationBean keycloakAuthenticationProcessingFilterRegistrationBean(
@@ -105,7 +104,6 @@ public class SecurityConfig extends KeycloakWebSecurityConfigurerAdapter
         config.addAllowedMethod("PATCH");
 
         source.registerCorsConfiguration("/**", config);
-        // return new CorsFilter(source);
         final FilterRegistrationBean bean = new FilterRegistrationBean(new CorsFilter(source));
         bean.setOrder(Ordered.HIGHEST_PRECEDENCE);
         return bean;

@@ -1,9 +1,12 @@
 package com.rectasolutions.moving.registration.entities;
 
 import org.hibernate.annotations.Check;
-import org.hibernate.validator.constraints.NotBlank;
 
-import javax.persistence.*;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.Table;
+import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 
 /**
@@ -24,7 +27,7 @@ public class UserDB {
     @NotNull
     private double latitude;
 
-    @NotBlank
+    @NotEmpty
     @Check(constraints = "status in ('online','busy','offline')")
     private String status;
 

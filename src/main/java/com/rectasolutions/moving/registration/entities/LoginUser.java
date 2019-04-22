@@ -1,18 +1,17 @@
 package com.rectasolutions.moving.registration.entities;
 
 
-import org.hibernate.validator.constraints.NotBlank;
-
+import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 
 public class LoginUser {
 
 
     @NotNull
-    @NotBlank
+    @NotEmpty
     private String username;
     @NotNull
-    @NotBlank
+    @NotEmpty
     private String password;
 
 

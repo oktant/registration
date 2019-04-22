@@ -1,8 +1,8 @@
 package com.rectasolutions.moving.registration.entities;
 
 import org.hibernate.validator.constraints.Email;
-import org.hibernate.validator.constraints.NotBlank;
 
+import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 
 public class Response {
@@ -14,12 +14,12 @@ public class Response {
 
     @NotNull
     @Email
-    @NotBlank
+    @NotEmpty
     private String message;
 
     @NotNull
     @Email
-    @NotBlank
+    @NotEmpty
     private int code;
 
 

@@ -1,8 +1,7 @@
 package com.rectasolutions.moving.registration.entities;
 
-import org.hibernate.validator.constraints.NotBlank;
-
 import javax.persistence.*;
+import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.Size;
 
 /**
@@ -15,18 +14,18 @@ public class Country {
     @Column(name="id")
     @GeneratedValue(strategy=GenerationType.IDENTITY)
     private int id;
-    @NotBlank
+    @NotEmpty
     @Column(name = "country_name")
     private String countryName;
 
     @Size(min = 2, max = 4)
-    @NotBlank
+    @NotEmpty
     @Column(name = "country_code")
     private String countryCode;
 
 
     @Size(min = 2, max = 8)
-    @NotBlank
+    @NotEmpty
     @Column(name = "phone_code")
     private String phoneCode;
 
