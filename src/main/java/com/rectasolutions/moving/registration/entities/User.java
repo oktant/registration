@@ -70,8 +70,6 @@ public class    User {
         this.phoneNumber = phoneNumber;
     }
 
-    public User() {
-    }
 
     public String getCompanyName() {
         return companyName;

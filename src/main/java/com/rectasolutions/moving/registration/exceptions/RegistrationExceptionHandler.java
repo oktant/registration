@@ -49,6 +49,13 @@ public class RegistrationExceptionHandler {
 
     }
 
+    @ExceptionHandler(CountryNotFound.class)
+    public ResponseEntity<Response> countryDoesntExist(){
+        Response response=new Response(Message.USER_NOT_EXISTS.getMessageText(), Message.USER_NOT_EXISTS.getMessageCode());
+        return new ResponseEntity<>(response,HttpStatus.UNAUTHORIZED);
+
+    }
+
 
 }
 
