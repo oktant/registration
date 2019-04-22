@@ -104,8 +104,7 @@ public class RegistrationService {
         stringMap.put("phoneNumber", phoneList);
 
 
-        //userRepresentation.setRealmRoles(Arrays.asList("driver_ind"));
-        // Get realm*/
+
 
 
         userRepresentation.setAttributes(stringMap);
