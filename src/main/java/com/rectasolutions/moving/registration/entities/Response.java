@@ -1,7 +1,7 @@
 package com.rectasolutions.moving.registration.entities;
 
-import org.hibernate.validator.constraints.Email;
 
+import javax.validation.constraints.Email;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 

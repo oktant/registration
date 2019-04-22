@@ -1,12 +1,13 @@
 package com.rectasolutions.moving.registration.entities;
 
 
+import javax.validation.constraints.Email;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 
 public class LoginUser {
 
-
+    @Email
     @NotNull
     @NotEmpty
     private String username;
