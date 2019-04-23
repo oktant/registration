@@ -149,7 +149,7 @@ public class RegistrationService {
         removeUserFromDB(userId);
 
         realm.users().get(userId).remove();
-        return new ResponseEntity<String>("User was deleted", HttpStatus.OK);
+        return new ResponseEntity<>("User was deleted", HttpStatus.OK);
     }
 
     public ClientToken getTokens(LoginUser loginUser) throws IOException {

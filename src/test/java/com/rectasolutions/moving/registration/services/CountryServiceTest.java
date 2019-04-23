@@ -48,8 +48,8 @@ public class CountryServiceTest {
     public void getAlCountries() {
 
         when(countryRepositoryMock.findAll()).thenReturn(countries);
-        assertEquals(countryServiceMock.getAlCountries().get(0).getId(), 1);
-        assertEquals(countryServiceMock.getAlCountries().get(1).getId(), 2);
+        assertEquals(1, countryServiceMock.getAlCountries().get(0).getId());
+        assertEquals(2, countryServiceMock.getAlCountries().get(1).getId());
 
     }
 
@@ -59,7 +59,7 @@ public class CountryServiceTest {
 
         when(countryRepositoryMock.findById(1)).thenReturn(objectList);
 
-        assertEquals(countryServiceMock.getCountry(1).getCountryName(), "Sweden");
+        assertEquals("Sweden", countryServiceMock.getCountry(1).getCountryName());
 
     }
 }

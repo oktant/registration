@@ -116,7 +116,8 @@ public class    User {
     }
 
     public void setAttributes(Map<String, List<String>> attributes) {
-        this.attributes = attributes.entrySet().stream().collect(Collectors.toMap(e -> e.getKey(), e -> new ArrayList(e.getValue())));
+        this.attributes = attributes.entrySet().stream().collect(Collectors.
+                toMap(Map.Entry::getKey, e -> new ArrayList(e.getValue())));
     }
 
     @Override

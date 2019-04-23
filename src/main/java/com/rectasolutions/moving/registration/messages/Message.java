@@ -5,7 +5,7 @@ public enum Message {
     USER_ALREADY_EXISTS(501, "User with the specified email already exists, please try another email or try to login"),
     NOT_ALL_MANDATORY_FIELDS(502, "Not all mandatory fields are specified"),
     USER_NOT_EXISTS(503, "Incorrect username or password"),
-    COUNTR_NOT_EXISTS(504, "Incorrect country");
+    COUNTRY_NOT_EXISTS(504, "Incorrect country");
 
 
     private String messageText;
