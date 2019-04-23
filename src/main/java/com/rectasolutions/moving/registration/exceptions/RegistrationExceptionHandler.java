@@ -16,13 +16,8 @@ import javax.ws.rs.NotFoundException;
  */
 @RestControllerAdvice
 public class RegistrationExceptionHandler {
-    @ExceptionHandler(NotFoundException.class)
-    public ResponseEntity<Response> notFound(){
-        Response response=new Response(Message.USER_NOT_EXISTS.getMessageText(), Message.USER_NOT_EXISTS.getMessageCode());
-        return new ResponseEntity<>(response,HttpStatus.NOT_FOUND);
-    }
 
-    @ExceptionHandler(EmptyResultDataAccessException.class)
+    @ExceptionHandler({EmptyResultDataAccessException.class, NotFoundException.class})
     public ResponseEntity<Response> empty(){
         Response response=new Response(Message.USER_NOT_EXISTS.getMessageText(), Message.USER_NOT_EXISTS.getMessageCode());
 
