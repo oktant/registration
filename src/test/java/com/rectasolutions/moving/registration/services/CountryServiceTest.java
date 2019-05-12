@@ -1,6 +1,5 @@
 package com.rectasolutions.moving.registration.services;
 
-import com.googlecode.catchexception.apis.CatchExceptionBdd;
 import com.rectasolutions.moving.registration.entities.Country;
 import com.rectasolutions.moving.registration.exceptions.CountryNotFound;
 import com.rectasolutions.moving.registration.repositories.CountryRepository;
@@ -63,8 +62,8 @@ public class CountryServiceTest {
         Optional<Country> objectList = Optional.of(countries.get(0));
 
         when(countryRepositoryMock.findById(1)).thenReturn(objectList);
+        countryServiceMock.getCountry(3);
 
-        assertEquals("Sweden", countryServiceMock.getCountry(3).getCountryName());
 
     }
 
