@@ -186,20 +186,6 @@ public class RegistrationService {
         }
     }
 
-    //--- Get User ----//
-    public ResponseEntity<User> getUserFromKeyclock(String userId) {
-        UserRepresentation userRepresentation = realmResource.users().get(userId).toRepresentation();
-        User user = new User();
-        user.setEmail(userRepresentation.getUsername());
-        user.setFirstName(userRepresentation.getFirstName());
-        user.setLastName(userRepresentation.getLastName());
-        user.setEmail(userRepresentation.getEmail());
-        user.setAttributes(userRepresentation.getAttributes());
-        return new ResponseEntity<>(user, HttpStatus.OK);
-    }
-
-
-
     private void addUserIntoDB(String userId) {
         UserDB userDB = new UserDB();
         userDB.setId(userId);
