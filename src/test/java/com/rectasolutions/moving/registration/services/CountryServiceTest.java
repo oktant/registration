@@ -1,6 +1,8 @@
 package com.rectasolutions.moving.registration.services;
 
+import com.googlecode.catchexception.apis.CatchExceptionBdd;
 import com.rectasolutions.moving.registration.entities.Country;
+import com.rectasolutions.moving.registration.exceptions.CountryNotFound;
 import com.rectasolutions.moving.registration.repositories.CountryRepository;
 import org.junit.Before;
 import org.junit.Test;
@@ -13,8 +15,11 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+
 import static org.junit.Assert.assertEquals;
 import static org.mockito.Mockito.when;
+
+
 @RunWith(MockitoJUnitRunner.class)
 
 public class CountryServiceTest {
@@ -61,6 +66,13 @@ public class CountryServiceTest {
 
         assertEquals("Sweden", countryServiceMock.getCountry(1).getCountryName());
 
+    }
+
+    @Test(expected = CountryNotFound.class)
+
+    public void getCountryNotExist() {
+        when(countryRepositoryMock.findById(3)).thenThrow(CountryNotFound.class);
+        assertEquals("Sweden", countryServiceMock.getCountry(3).getCountryName());
     }
 }
 
