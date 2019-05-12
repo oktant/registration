@@ -58,21 +58,17 @@ public class CountryServiceTest {
 
     }
 
-    @Test
+    @Test(expected = CountryNotFound.class)
     public void getCountry() {
         Optional<Country> objectList = Optional.of(countries.get(0));
 
         when(countryRepositoryMock.findById(1)).thenReturn(objectList);
 
-        assertEquals("Sweden", countryServiceMock.getCountry(1).getCountryName());
-
-    }
-
-    @Test(expected = CountryNotFound.class)
-
-    public void getCountryNotExist() {
-        when(countryRepositoryMock.findById(3)).thenThrow(CountryNotFound.class);
         assertEquals("Sweden", countryServiceMock.getCountry(3).getCountryName());
+
     }
+
+
+
 }
 
