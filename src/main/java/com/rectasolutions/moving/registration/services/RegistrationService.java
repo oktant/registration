@@ -16,9 +16,9 @@ import org.apache.http.client.methods.HttpPost;
 import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClients;
 import org.apache.http.message.BasicNameValuePair;
-import org.keycloak.admin.client.Keycloak;
-import org.keycloak.admin.client.KeycloakBuilder;
+
 import org.keycloak.admin.client.resource.RealmResource;
+import org.keycloak.admin.client.resource.UsersResource;
 import org.keycloak.representations.idm.ClientRepresentation;
 import org.keycloak.representations.idm.CredentialRepresentation;
 import org.keycloak.representations.idm.RoleRepresentation;
@@ -41,23 +41,12 @@ import static java.util.Arrays.asList;
  */
 @Service
 public class RegistrationService {
-    @Value("${recta.moving.keycloak.admin.user}")
-    private String adminUser;
-
-    @Value("${recta.moving.keycloak.admin.password}")
-    private String adminPass;
-
-    @Value("${keycloak.auth-server-url}")
-    private String serverUrl;
-
-    @Value("${keycloak.realm}")
-    private String realmName;
-
     @Value("${keycloak.credentials.secret}")
     private String clientSecret;
 
     @Value("${keycloak.resource}")
     private String client;
+
 
     @Value("${moving.client.keycloak.url}")
     private String movingKeycloakAuthUrl;
@@ -65,20 +54,24 @@ public class RegistrationService {
     private String movingRole;
 
 
-    @Autowired
-    ClientToken clientToken;
+    private ClientToken clientToken;
 
-    @Autowired
-    TokenCollection tokenCollection;
+    private TokenCollection tokenCollection;
 
 
     private UserDBRepository userDBRepository;
     private CountryService countryService;
 
+    private RealmResource realmResource;
+
     @Autowired
-    public RegistrationService(UserDBRepository userDBRepository, CountryService countryService) {
+    public RegistrationService(UserDBRepository userDBRepository, CountryService countryService,
+                               TokenCollection tokenCollection, ClientToken clientToken, RealmResource realmResource) {
         this.userDBRepository = userDBRepository;
         this.countryService = countryService;
+        this.tokenCollection=tokenCollection;
+        this.clientToken=clientToken;
+        this.realmResource=realmResource;
     }
 
 
@@ -88,7 +81,7 @@ public class RegistrationService {
     //--- ADD USER ----//
     public com.rectasolutions.moving.registration.entities.Response addUserIntoKeycloak(User user) {
 
-        RealmResource realm = getRealm();
+
         UserRepresentation userRepresentation = new UserRepresentation();
         userRepresentation.setEnabled(true);
         userRepresentation.setUsername(user.getEmail());
@@ -105,50 +98,48 @@ public class RegistrationService {
         List<String> phoneList = new ArrayList<>();
         phoneList.add((countryService.getCountry(user.getCountry())).getPhoneCode() + user.getPhoneNumber());
         stringMap.put("phoneNumber", phoneList);
-
-
-
-
-
         userRepresentation.setAttributes(stringMap);
+        return getResponseFromCreationOfUserKeycloak(userRepresentation, user.getPassword());
 
-        //Create User and get Response
-        Response response = realm.users().create(userRepresentation);
+    }
+
+    private  com.rectasolutions.moving.registration.entities.Response getResponseFromCreationOfUserKeycloak(
+
+        UserRepresentation userRepresentation, String password){
+        UsersResource usersResource = realmResource.users();
+        Response response=usersResource.create(userRepresentation);
 
         if (response.getStatus() == 409) {
             throw new UserExistsException();
         } else {
             String userId = response.getLocation().getPath().replaceAll(".*/([^/]+)$", "$1");
             //Add role to new User
-            ClientRepresentation clientRep = realm.clients().findByClientId(client).get(0);
-            RoleRepresentation clientRoleRep = realm.clients().get(clientRep.getId()).roles().get(movingRole).toRepresentation();
-            realm.users().get(userId).roles().clientLevel(clientRep.getId()).add(Arrays.asList(clientRoleRep));
+            ClientRepresentation clientRep = realmResource.clients().findByClientId(client).get(0);
+            RoleRepresentation clientRoleRep = realmResource.clients().get(clientRep.getId()).roles().get(movingRole).toRepresentation();
+            realmResource.users().get(userId).roles().clientLevel(clientRep.getId()).add(Arrays.asList(clientRoleRep));
 
 
             // Define password credential
             CredentialRepresentation passwordCred = new CredentialRepresentation();
             passwordCred.setTemporary(false);
             passwordCred.setType(CredentialRepresentation.PASSWORD);
-            passwordCred.setValue(user.getPassword());
+            passwordCred.setValue(password);
 
             // Set password credential
-            realm.users().get(userId).resetPassword(passwordCred);
+            realmResource.users().get(userId).resetPassword(passwordCred);
 
             // Add user into DB
             addUserIntoDB(userId);
 
             return new com.rectasolutions.moving.registration.entities.Response(Message.SUCCESSFUL_USER_CREATION.getMessageText(), Message.SUCCESSFUL_USER_CREATION.getMessageCode());
         }
-
-
     }
 
     //--- REMOVE USER ----//
     public ResponseEntity<String> removeUserFromKeycloak(String userId) {
-        RealmResource realm = getRealm();
         removeUserFromDB(userId);
 
-        realm.users().get(userId).remove();
+        realmResource.users().get(userId).remove();
         return new ResponseEntity<>("User was deleted", HttpStatus.OK);
     }
 
@@ -197,8 +188,7 @@ public class RegistrationService {
 
     //--- Get User ----//
     public ResponseEntity<User> getUserFromKeyclock(String userId) {
-        RealmResource realm = getRealm();
-        UserRepresentation userRepresentation = realm.users().get(userId).toRepresentation();
+        UserRepresentation userRepresentation = realmResource.users().get(userId).toRepresentation();
         User user = new User();
         user.setEmail(userRepresentation.getUsername());
         user.setFirstName(userRepresentation.getFirstName());
@@ -208,17 +198,7 @@ public class RegistrationService {
         return new ResponseEntity<>(user, HttpStatus.OK);
     }
 
-    private RealmResource getRealm() {
-        Keycloak keycloak = KeycloakBuilder.builder() //
-                .serverUrl(serverUrl) //
-                .realm(realmName) //
-                .clientId(client) //
-                .clientSecret(clientSecret)
-                .username(adminUser) //
-                .password(adminPass) //
-                .build();
-        return keycloak.realm(realmName);
-    }
+
 
     private void addUserIntoDB(String userId) {
         UserDB userDB = new UserDB();
