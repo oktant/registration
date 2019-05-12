@@ -17,7 +17,9 @@ import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClients;
 import org.apache.http.message.BasicNameValuePair;
 
+import org.keycloak.admin.client.resource.ClientsResource;
 import org.keycloak.admin.client.resource.RealmResource;
+import org.keycloak.admin.client.resource.RoleMappingResource;
 import org.keycloak.admin.client.resource.UsersResource;
 import org.keycloak.representations.idm.ClientRepresentation;
 import org.keycloak.representations.idm.CredentialRepresentation;
@@ -103,6 +105,9 @@ public class RegistrationService {
 
     }
 
+
+
+
     private  com.rectasolutions.moving.registration.entities.Response getResponseFromCreationOfUserKeycloak(
 
         UserRepresentation userRepresentation, String password){
@@ -114,9 +119,14 @@ public class RegistrationService {
         } else {
             String userId = response.getLocation().getPath().replaceAll(".*/([^/]+)$", "$1");
             //Add role to new User
-            ClientRepresentation clientRep = realmResource.clients().findByClientId(client).get(0);
-            RoleRepresentation clientRoleRep = realmResource.clients().get(clientRep.getId()).roles().get(movingRole).toRepresentation();
-            realmResource.users().get(userId).roles().clientLevel(clientRep.getId()).add(Arrays.asList(clientRoleRep));
+            ClientsResource clientsResource=realmResource.clients();
+
+            ClientRepresentation clientRep = clientsResource.findByClientId(client).get(0);
+            RoleRepresentation clientRoleRep = clientsResource.get(clientRep.getId()).roles().get(movingRole).toRepresentation();
+
+            RoleMappingResource roleMappingResource=usersResource.get(userId).roles();
+            String clientRepresentationId=clientRep.getId();
+            roleMappingResource.clientLevel(clientRepresentationId).add(Arrays.asList(clientRoleRep));
 
 
             // Define password credential
