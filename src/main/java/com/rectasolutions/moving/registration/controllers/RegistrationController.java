@@ -43,8 +43,9 @@ public class RegistrationController {
     }
 
     @DeleteMapping("/users")
-    public ResponseEntity<String> removeUser(Principal principal){
-        return registrationService.removeUserFromKeycloak(principal.getName());
+    public ResponseEntity removeUser(Principal principal){
+        registrationService.removeUserFromKeycloak(principal.getName());
+        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 
     @PostMapping("/token")

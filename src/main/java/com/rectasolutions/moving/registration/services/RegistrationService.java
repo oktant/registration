@@ -145,11 +145,11 @@ public class RegistrationService {
     }
 
     //--- REMOVE USER ----//
-    public ResponseEntity<String> removeUserFromKeycloak(String userId) {
+    public String removeUserFromKeycloak(String userId) {
         removeUserFromDB(userId);
 
         realmResource.users().get(userId).remove();
-        return new ResponseEntity<>("User was deleted", HttpStatus.OK);
+        return "User was deleted";
     }
 
     public ClientToken getTokens(LoginUser loginUser) throws IOException {
