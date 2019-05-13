@@ -1,16 +1,11 @@
 package com.rectasolutions.moving.registration.services;
 
 import com.rectasolutions.moving.registration.entities.Country;
-import com.rectasolutions.moving.registration.entities.LoginUser;
 import com.rectasolutions.moving.registration.entities.User;
 import com.rectasolutions.moving.registration.entities.UserDB;
 import com.rectasolutions.moving.registration.exceptions.UserExistsException;
 import com.rectasolutions.moving.registration.messages.Message;
 import com.rectasolutions.moving.registration.repositories.UserDBRepository;
-import org.apache.http.HttpResponse;
-import org.apache.http.client.methods.CloseableHttpResponse;
-import org.apache.http.client.methods.HttpGet;
-import org.apache.http.impl.client.CloseableHttpClient;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -23,7 +18,6 @@ import org.mockito.junit.MockitoJUnitRunner;
 import org.springframework.test.util.ReflectionTestUtils;
 
 import javax.ws.rs.core.Response;
-import java.io.IOException;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.ArrayList;
