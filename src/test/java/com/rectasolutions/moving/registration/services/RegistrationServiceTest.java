@@ -4,33 +4,26 @@ import com.rectasolutions.moving.registration.entities.Country;
 import com.rectasolutions.moving.registration.entities.User;
 import com.rectasolutions.moving.registration.entities.UserDB;
 import com.rectasolutions.moving.registration.exceptions.UserExistsException;
-import com.rectasolutions.moving.registration.messages.Message;
 import com.rectasolutions.moving.registration.repositories.UserDBRepository;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.keycloak.admin.client.Keycloak;
-import org.keycloak.admin.client.KeycloakBuilder;
 import org.keycloak.admin.client.resource.*;
 import org.keycloak.representations.idm.ClientRepresentation;
 import org.keycloak.representations.idm.RoleRepresentation;
-import org.keycloak.representations.idm.UserRepresentation;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.MockitoJUnitRunner;
-import org.omg.CORBA.Any;
 import org.springframework.test.util.ReflectionTestUtils;
 
 import javax.ws.rs.core.Response;
-import java.lang.reflect.Method;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
-import static org.mockito.Answers.RETURNS_DEEP_STUBS;
-import static org.mockito.ArgumentMatchers.*;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
@@ -112,7 +105,7 @@ public class RegistrationServiceTest {
         when(roleResource.toRepresentation()).thenReturn(roleRepresentation);
         when(usersResource.get(anyString())).thenReturn(userResource);
         when(userResource.roles()).thenReturn(roleMappingResource);
-        when(clientRepresentation.getId()).thenReturn("clientRe");
+
         when(roleMappingResource.clientLevel(null)).thenReturn(roleScopeResource);
         UserDB userDB=mock(UserDB.class);
         when(userDBRepository.save(userDB)).thenReturn(userDB);
