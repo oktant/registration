@@ -65,6 +65,17 @@ public class CountryServiceTest {
 
     }
 
+    @Test
+    public void getCountryOne(){
+        Optional<Country> objectList = Optional.of(countries.get(0));
+
+        when(countryRepositoryMock.findById(1)).thenReturn(objectList);
+        assertEquals("Sweden", countryServiceMock.getCountry(1).getCountryName());
+
+
+
+    }
+
 
 
 }

@@ -119,6 +119,7 @@ public class RegistrationServiceTest {
 
     @Test
     public void getTokens() {
+
     }
 
     @Test
