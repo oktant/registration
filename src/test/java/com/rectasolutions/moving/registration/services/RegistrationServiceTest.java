@@ -1,11 +1,20 @@
 package com.rectasolutions.moving.registration.services;
 
+import com.rectasolutions.moving.registration.config.security.ClientToken;
 import com.rectasolutions.moving.registration.entities.Country;
+import com.rectasolutions.moving.registration.entities.LoginUser;
 import com.rectasolutions.moving.registration.entities.User;
 import com.rectasolutions.moving.registration.entities.UserDB;
 import com.rectasolutions.moving.registration.exceptions.UserExistsException;
 import com.rectasolutions.moving.registration.messages.Message;
 import com.rectasolutions.moving.registration.repositories.UserDBRepository;
+import org.apache.http.HttpResponse;
+import org.apache.http.StatusLine;
+import org.apache.http.client.ClientProtocolException;
+import org.apache.http.client.methods.CloseableHttpResponse;
+import org.apache.http.client.methods.HttpPost;
+import org.apache.http.impl.client.CloseableHttpClient;
+import org.apache.http.impl.client.HttpClients;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -16,8 +25,10 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.MockitoJUnitRunner;
 import org.springframework.test.util.ReflectionTestUtils;
+import sun.net.www.http.HttpClient;
 
 import javax.ws.rs.core.Response;
+import java.io.IOException;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.ArrayList;
@@ -127,7 +138,20 @@ public class RegistrationServiceTest {
 
     }
 
-    @Test
-    public void getUserFromKeyclock() {
+    @Test(expected = ClientProtocolException.class)
+    public void getTokens() throws IOException {
+        LoginUser loginUser=new LoginUser();
+
+        CloseableHttpClient closeableHttpClient = mock(CloseableHttpClient.class);
+
+        CloseableHttpResponse closeableHttpResponse=mock(CloseableHttpResponse.class);
+        when(closeableHttpClient.execute(any(HttpPost.class))).thenReturn(closeableHttpResponse);
+
+
+
+
+        registrationServiceMock.getTokens(loginUser);
+
+
     }
 }
