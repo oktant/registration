@@ -1,6 +1,7 @@
 package com.rectasolutions.moving.registration.controllers;
 
 import com.rectasolutions.moving.registration.config.security.ClientToken;
+import com.rectasolutions.moving.registration.entities.Country;
 import com.rectasolutions.moving.registration.entities.LoginUser;
 import com.rectasolutions.moving.registration.entities.Response;
 import com.rectasolutions.moving.registration.entities.User;
@@ -15,6 +16,8 @@ import org.mockito.junit.MockitoJUnitRunner;
 import org.springframework.http.HttpStatus;
 
 import java.io.IOException;
+import java.security.Principal;
+import java.util.List;
 
 import static org.junit.Assert.*;
 import static org.mockito.Mockito.mock;
@@ -48,6 +51,16 @@ public class RegistrationControllerTest {
 
     @Test
     public void removeUser() {
+        Principal principal1=new Principal() {
+            @Override
+            public String getName() {
+                return "aaa";
+            }
+        };
+        when(registrationService.removeUserFromKeycloak(principal1.getName())).thenReturn("User was deleted");
+
+
+        assertEquals(HttpStatus.NO_CONTENT,registrationController.removeUser(principal1).getStatusCode());
 
     }
 
@@ -66,9 +79,15 @@ public class RegistrationControllerTest {
 
     @Test
     public void getCountries() {
+        List<Country> list=mock(List.class);
+        when(countryService.getAlCountries()).thenReturn(list);
+        assertEquals(HttpStatus.OK,registrationController.getCountries().getStatusCode());
+
     }
 
     @Test
     public void logout() {
+
+
     }
 }
