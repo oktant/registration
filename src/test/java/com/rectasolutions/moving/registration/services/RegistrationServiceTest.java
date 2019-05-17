@@ -65,6 +65,11 @@ public class RegistrationServiceTest {
         user.setPassword("dadasda");
         user.setCity("dasfdasd");
         user.setCountry(1);
+        user.setCompanyName("dasjhdbasj");
+        user.setFirstName("Test");
+        user.setLastName("dasdsa");
+        user.setPhoneNumber("123");
+
 
         ReflectionTestUtils.setField(registrationServiceMock, "clientSecret", "asdasd");
         ReflectionTestUtils.setField(registrationServiceMock, "client", "test-client");

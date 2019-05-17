@@ -35,9 +35,10 @@ public class RegistrationControllerTest {
     private CountryService countryService;
     User user;
 
-
+    LoginUser loginUser;
     @Before
     public void setUp(){
+        loginUser=new LoginUser();
         user=new User();
     }
 
@@ -68,7 +69,9 @@ public class RegistrationControllerTest {
 
     @Test
     public void getUser() throws IOException {
-        LoginUser loginUser=new LoginUser();
+        loginUser.setUsername("username");
+        loginUser.setPassword("password");
+
         ClientToken clientToken=mock(ClientToken.class);
         when(registrationService.getTokens(loginUser)).thenReturn(clientToken);
         assertEquals(HttpStatus.OK,registrationController.getUser(loginUser).getStatusCode());
