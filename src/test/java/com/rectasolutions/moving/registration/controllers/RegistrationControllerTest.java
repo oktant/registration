@@ -15,13 +15,15 @@ import org.mockito.Mock;
 import org.mockito.junit.MockitoJUnitRunner;
 import org.springframework.http.HttpStatus;
 
+import javax.servlet.ServletException;
+import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
 import java.security.Principal;
 import java.util.List;
 
 import static org.junit.Assert.*;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.*;
+
 @RunWith(MockitoJUnitRunner.class)
 
 public class RegistrationControllerTest {
@@ -89,8 +91,8 @@ public class RegistrationControllerTest {
     }
 
     @Test
-    public void logout() {
-
-
+    public void logout() throws ServletException {
+        HttpServletRequest httpServletRequest=mock(HttpServletRequest.class);
+        registrationController.logout(httpServletRequest);
     }
 }
