@@ -24,7 +24,7 @@ public class RegistrationExceptionHandler {
         return new ResponseEntity<>(response,HttpStatus.NOT_FOUND);
     }
 
-    @ExceptionHandler({MethodArgumentNotValidException.class, NotAllMandatoryFieldsAreSpecified.class})
+    @ExceptionHandler({MethodArgumentNotValidException.class})
     public ResponseEntity<Response> badRequest(){
         Response response=new Response(Message.NOT_ALL_MANDATORY_FIELDS.getMessageText(), Message.NOT_ALL_MANDATORY_FIELDS.getMessageCode());
         return new ResponseEntity<>(response,HttpStatus.BAD_REQUEST);
