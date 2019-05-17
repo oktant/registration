@@ -117,16 +117,5 @@ public class    User {
                 toMap(Map.Entry::getKey, e -> new ArrayList(e.getValue())));
     }
 
-    @Override
-    public String toString() {
-        return "User{" +
-                "email='" + email + '\'' +
-                ", firstName='" + firstName + '\'' +
-                ", lastName='" + lastName + '\'' +
-                ", country=" + country +
-                ", city='" + city + '\'' +
-                ", phoneNumber='" + phoneNumber + '\'' +
-                ", attributes=" + attributes +
-                '}';
-    }
+
 }

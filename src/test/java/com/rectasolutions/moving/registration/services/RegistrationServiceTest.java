@@ -54,7 +54,7 @@ public class RegistrationServiceTest {
     @Mock
     UserDBRepository userDBRepository;
     UserDB userDB;
-
+    Map<String, List<String>> attributeTest;
     @Before
     public void createUser(){
         country.setCountryCode("SE");
@@ -77,6 +77,8 @@ public class RegistrationServiceTest {
         cityList.add(user.getCity());
         hashMap.put("city", cityList);
         user.setAttributes(hashMap);
+        attributeTest=user.getAttributes();
+
 
         ReflectionTestUtils.setField(registrationServiceMock, "clientSecret", "asdasd");
         ReflectionTestUtils.setField(registrationServiceMock, "client", "test-client");
@@ -92,6 +94,7 @@ public class RegistrationServiceTest {
         when(realmResource.users()).thenReturn(usersResource);
         javax.ws.rs.core.Response response=javax.ws.rs.core.Response.status(Response.Status.CONFLICT).build();
         when(usersResource.create(any())).thenReturn(response);
+
         registrationServiceMock.addUserIntoKeycloak(user);
 
     }
@@ -133,7 +136,6 @@ public class RegistrationServiceTest {
                         Response(Message.SUCCESSFUL_USER_CREATION.getMessageText(), 101);
         assertEquals(response1.getCode(),registrationServiceMock.addUserIntoKeycloak(user).getCode());
         assertEquals(response1.getMessage(),registrationServiceMock.addUserIntoKeycloak(user).getMessage());
-
 
     }
 
