@@ -24,7 +24,6 @@ public class CountryService {
 
         if(countryOptional.isPresent()){
             return countryOptional.get();
-
         }
         else {
             throw new CountryNotFound();

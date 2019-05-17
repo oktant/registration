@@ -47,9 +47,6 @@ public class Country {
         this.countryName = countryName;
     }
 
-    public String getCountryCode() {
-        return countryCode;
-    }
 
     public void setCountryCode(String countryCode) {
         this.countryCode = countryCode;
@@ -63,13 +60,5 @@ public class Country {
         this.phoneCode = phoneCode;
     }
 
-    @Override
-    public String toString() {
-        return "Country{" +
-                "id=" + id +
-                ", countryName='" + countryName + '\'' +
-                ", countryCode='" + countryCode + '\'' +
-                ", phoneCode='" + phoneCode + '\'' +
-                '}';
-    }
+
 }

@@ -5,6 +5,7 @@ import com.rectasolutions.moving.registration.entities.LoginUser;
 import com.rectasolutions.moving.registration.entities.User;
 import com.rectasolutions.moving.registration.entities.UserDB;
 import com.rectasolutions.moving.registration.exceptions.UserExistsException;
+import com.rectasolutions.moving.registration.exceptions.UserNotFound;
 import com.rectasolutions.moving.registration.messages.Message;
 import com.rectasolutions.moving.registration.repositories.UserDBRepository;
 import org.apache.http.client.ClientProtocolException;
@@ -26,7 +27,9 @@ import java.io.IOException;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import static org.junit.Assert.assertEquals;
 import static org.mockito.ArgumentMatchers.any;
@@ -69,7 +72,10 @@ public class RegistrationServiceTest {
         user.setFirstName("Test");
         user.setLastName("dasdsa");
         user.setPhoneNumber("123");
-
+        Map<String, List<String>> hashMap=new HashMap<String, List<String>>();
+        List<String> cityList = new ArrayList<>();
+        cityList.add(user.getCity());
+        hashMap.put("city", cityList);
 
         ReflectionTestUtils.setField(registrationServiceMock, "clientSecret", "asdasd");
         ReflectionTestUtils.setField(registrationServiceMock, "client", "test-client");
@@ -153,4 +159,15 @@ public class RegistrationServiceTest {
 
 
     }
+    @Test(expected = UserNotFound.class)
+    public void getUserNotFound() throws IOException {
+        LoginUser loginUser=new LoginUser();
+
+        CloseableHttpClient closeableHttpClient = mock(CloseableHttpClient.class);
+        CloseableHttpResponse closeableHttpResponse=mock(CloseableHttpResponse.class);
+        throw new UserNotFound();
+
+
+    }
+
 }
