@@ -43,14 +43,6 @@ public class UserDB {
         return photoPath;
     }
 
-    public void setPhotoPath(String photoPath) {
-        this.photoPath = photoPath;
-    }
-
-    public double getLongitude() {
-        return longitude;
-    }
-
     public void setLongitude(double longitude) {
         this.longitude = longitude;
     }

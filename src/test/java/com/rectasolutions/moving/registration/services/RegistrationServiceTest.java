@@ -72,10 +72,11 @@ public class RegistrationServiceTest {
         user.setFirstName("Test");
         user.setLastName("dasdsa");
         user.setPhoneNumber("123");
-        Map<String, List<String>> hashMap=new HashMap<String, List<String>>();
+        Map<String, List<String>> hashMap=new HashMap<>();
         List<String> cityList = new ArrayList<>();
         cityList.add(user.getCity());
         hashMap.put("city", cityList);
+        user.setAttributes(hashMap);
 
         ReflectionTestUtils.setField(registrationServiceMock, "clientSecret", "asdasd");
         ReflectionTestUtils.setField(registrationServiceMock, "client", "test-client");
@@ -127,7 +128,12 @@ public class RegistrationServiceTest {
         when(roleMappingResource.clientLevel(null)).thenReturn(roleScopeResource);
         UserDB userDB=mock(UserDB.class);
         when(userDBRepository.save(userDB)).thenReturn(userDB);
-        assertEquals(Message.SUCCESSFUL_USER_CREATION.getMessageCode(),registrationServiceMock.addUserIntoKeycloak(user).getCode());
+        com.rectasolutions.moving.registration.entities.Response response1=
+                new com.rectasolutions.moving.registration.entities.
+                        Response(Message.SUCCESSFUL_USER_CREATION.getMessageText(), 101);
+        assertEquals(response1.getCode(),registrationServiceMock.addUserIntoKeycloak(user).getCode());
+        assertEquals(response1.getMessage(),registrationServiceMock.addUserIntoKeycloak(user).getMessage());
+
 
     }
 
